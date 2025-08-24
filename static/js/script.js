@@ -1,3 +1,9 @@
+ // Example: Replace response markdown with HTML
+    function renderMarkdownResponse(markdownText) {
+        return marked.parse(markdownText);
+        
+    }
+
 document.getElementById('pharmacistForm').addEventListener('submit', async (event) => {
     event.preventDefault();
 
@@ -35,7 +41,7 @@ document.getElementById('pharmacistForm').addEventListener('submit', async (even
     try {
         const response = await fetch('/upload_and_process_image', fetchOptions);
         const data = await response.json();
-        responseDiv.innerHTML = data.success ? data.response.replace(/\n/g, '<br>') : `An error occurred: ${data.error}. Please try again.`;
+        responseDiv.innerHTML = data.success ? renderMarkdownResponse(data.response.replace(/\n/g, '<br>') ): `An error occurred: ${data.error}. Please try again.`;
     } catch (error) {
         responseDiv.innerHTML = `An error occurred: ${error.message}. Please try again.`;
         console.error(error);
